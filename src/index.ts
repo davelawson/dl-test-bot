@@ -10,6 +10,8 @@ client.on('ready', () => {
 });
 
 client.on('messageCreate', (msg: Message) => {
+    if (msg.author.bot)
+        return;
     console.log("message");
     rpgBotDispatcher.handleMessage(msg);
 });

@@ -1,10 +1,10 @@
 import { RpgBot } from "../rpg-bot";
 
-class DrpgBot implements RpgBot {
-    name: string = "drpg";
-    description: string = "Simple bot for testing things out";
-    helpCmd() {
-        return 10;
+class DrpgBot extends RpgBot {
+    constructor() {
+        super("drpg", "Simple bot for testing things out");
+    }
+    helpCommand() {
     }
 }
 

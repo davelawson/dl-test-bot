@@ -1,19 +1,37 @@
-import { Interaction, Message } from "discord.js";
+import { Interaction, Message, MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
 import { DrpgBot } from "./drpg/drpg-bot";
 import { RpgBot } from "./rpg-bot";
-import { MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import { CommandHandler } from "./command-handler";
 
-const bots: Array<RpgBot> = Array(
-    new DrpgBot
-);
 
 class RpgBotDispatcher {
+    bots: Array<RpgBot> = Array(
+        new DrpgBot
+    );
+    
+    activeBot: RpgBot | undefined;
+    cmdHandlers: Array<CommandHandler> = Array(new class extends CommandHandler {
+        public handle(interaction : Interaction): void {
+            console.log("playCommandHandler::handle()");
+            if ( interaction.isCommand()) {
+                interaction.reply({ content: 'Play!'});
+            }
+        }
+    }("play"));
+    
     async handleInteraction(interaction: Interaction): Promise<void> {
         if (interaction.isCommand()) {
-            console.log("interaction -- command");
-            if (interaction.commandName === "play") {
-                console.log("PLAY");
+            console.log("interaction -- command: " + interaction.commandName);
+            // Check if we have a handler for this command
+            let handler: CommandHandler | undefined = this.cmdHandlers.find(handler => handler.name === interaction.commandName);
+            if (handler != undefined) {
+                handler.handle(interaction);
             }
+            // Otherwise, check if the active bot has a handler for this command
+            if (this.activeBot != undefined) {
+                this.activeBot.handleCommand(interaction);
+            }
+
 
             if (interaction.commandName === 'help') {
                 const row = new MessageActionRow()
@@ -37,6 +55,7 @@ class RpgBotDispatcher {
             console.log("interaction -- button");
         }
     }
+
     handleMessage(msg: Message) : void {
         if (msg.content === "ping") {
             msg.reply("Pong!");
