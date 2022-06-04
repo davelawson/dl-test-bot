@@ -3,10 +3,10 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 
-// Each bot needs to provide functionality to satisfy each of these commands
 const commands = [
-    new SlashCommandBuilder().setName('help').setDescription('Displays the list of commands and how each of them works.'),
     new SlashCommandBuilder().setName('play').setDescription('Select which bot to use.'),
+    // Each bot needs to provide functionality to satisfy each of the below commands
+    new SlashCommandBuilder().setName('help').setDescription('Displays the list of commands and how each of them works.'),
     new SlashCommandBuilder().setName('iam').setDescription('Select which character to play.'),
     new SlashCommandBuilder().setName('roll').setDescription('Roll some dice, based on the selected character if you want.'),
     new SlashCommandBuilder().setName('get').setDescription('Display some character specific values.'),
