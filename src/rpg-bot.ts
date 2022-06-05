@@ -9,11 +9,5 @@ export abstract class RpgBot {
         this.description = description;
     }
 
-    abstract helpCommand(interaction: Interaction) : void;
-    public handleCommand(interaction: Interaction) : void {
-        if (interaction.isCommand()) {
-            if (interaction.commandName === "help") this.helpCommand(interaction);
-        }
-        console.log("rpg-bot asked to handle a command that is not a command!");
-    }
+    abstract handleCommand(interaction: Interaction) : Promise<void>;
 }

@@ -1,42 +1,27 @@
 import { Interaction, Message, MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
+import { ArkBot } from "./ark/ark-bot";
 import { DrpgBot } from "./drpg/drpg-bot";
 import { RpgBot } from "./rpg-bot";
-import { CommandHandler } from "./command-handler";
-import { RpgBotSelector } from "./rpg-bot-selector";
-import { PlayCommandHandler } from "./play-command-handler";
 
-class RpgBotDispatcher implements RpgBotSelector {
+class RpgBotDispatcher {
     bots: Array<RpgBot> = Array(
-        new DrpgBot
+        <RpgBot> new DrpgBot(),
+        <RpgBot> new ArkBot()
     );
     
-    activeBot: RpgBot | undefined;
-    cmdHandlers: Array<CommandHandler> = Array(new PlayCommandHandler(this));
-
-    public selectBot(botName: string): boolean {
-        let botToSelect: RpgBot | undefined = this.bots.find(bot => bot.name === botName);
-        if (botToSelect != undefined) {
-            this.activeBot = botToSelect;
-            console.log("Selected " + botToSelect + " bot.");
-            return true;
-        } else {
-            return false;
-        }
+    private getBot(botName: string) : RpgBot | undefined {
+        return this.bots.find(bot => bot.name === botName);
     }
-    
+
     async handleInteraction(interaction: Interaction): Promise<void> {
         if (interaction.isCommand()) {
-            console.log("interaction -- command: " + interaction.commandName);
-            // Check if we have a handler for this command
-            let handler: CommandHandler | undefined = this.cmdHandlers.find(handler => handler.name === interaction.commandName);
-            if (handler != undefined) {
-                handler.handle(interaction);
+            let bot = this.getBot(interaction.commandName);
+            if (bot === undefined) {
+                console.log("Unable to find bot " + interaction.commandName);
+                await interaction.reply( { content: 'Unable to find a bot "' + interaction.commandName + '"'});
+            } else {
+                await bot.handleCommand(interaction);
             }
-            // Otherwise, check if the active bot has a handler for this command
-            if (this.activeBot != undefined) {
-                this.activeBot.handleCommand(interaction);
-            }
-
             if (interaction.commandName === 'help') {
                 const row = new MessageActionRow()
                     .addComponents(
