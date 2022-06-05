@@ -1,9 +1,11 @@
 require('dotenv').config();
+const { getArkCommandBuilder } = require('./ark/build-commands');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 
 const commands = [
+    getArkCommandBuilder(),
     new SlashCommandBuilder()
         .setName('play')
         .setDescription('Select which bot to use.')
@@ -16,6 +18,26 @@ const commands = [
                 { name: "rq", value: "rq" },
                 { name: "dnd", value: "dnd" })),
     // Each bot needs to provide functionality to satisfy each of the below commands
+    new SlashCommandBuilder()
+        .setName('drpg')
+        .setDescription('Issue a command to the drpg bot.')
+        .addSubcommand(subcommand => subcommand.setName('help')
+            .setDescription('Ask the bot for some help'))
+        .addSubcommand(subcommand =>
+            subcommand.setName('roll')
+                .setDescription('Roll some dice')
+                .addNumberOption(option => option
+                    .setName('dice')
+                    .setDescription('# of dice')
+                    .setRequired(true))
+                .addNumberOption(option => option
+                    .setName('faces')
+                    .setDescription('# of faces')
+                    .setRequired(true))
+                .addNumberOption(option => option
+                    .setName('target')
+                    .setDescription('Target #')
+                    .setRequired(false))),
     new SlashCommandBuilder().setName('help').setDescription('Displays the list of commands and how each of them works.'),
     new SlashCommandBuilder().setName('iam').setDescription('Select which character to play.'),
     new SlashCommandBuilder().setName('roll').setDescription('Roll some dice, based on the selected character if you want.'),
