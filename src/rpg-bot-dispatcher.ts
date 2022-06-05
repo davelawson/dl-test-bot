@@ -2,22 +2,27 @@ import { Interaction, Message, MessageActionRow, MessageButton, MessageEmbed } f
 import { DrpgBot } from "./drpg/drpg-bot";
 import { RpgBot } from "./rpg-bot";
 import { CommandHandler } from "./command-handler";
+import { RpgBotSelector } from "./rpg-bot-selector";
+import { PlayCommandHandler } from "./play-command-handler";
 
-
-class RpgBotDispatcher {
+class RpgBotDispatcher implements RpgBotSelector {
     bots: Array<RpgBot> = Array(
         new DrpgBot
     );
     
     activeBot: RpgBot | undefined;
-    cmdHandlers: Array<CommandHandler> = Array(new class extends CommandHandler {
-        public handle(interaction : Interaction): void {
-            console.log("playCommandHandler::handle()");
-            if ( interaction.isCommand()) {
-                interaction.reply({ content: 'Play!'});
-            }
+    cmdHandlers: Array<CommandHandler> = Array(new PlayCommandHandler(this));
+
+    public selectBot(botName: string): boolean {
+        let botToSelect: RpgBot | undefined = this.bots.find(bot => bot.name === botName);
+        if (botToSelect != undefined) {
+            this.activeBot = botToSelect;
+            console.log("Selected " + botToSelect + " bot.");
+            return true;
+        } else {
+            return false;
         }
-    }("play"));
+    }
     
     async handleInteraction(interaction: Interaction): Promise<void> {
         if (interaction.isCommand()) {
@@ -31,7 +36,6 @@ class RpgBotDispatcher {
             if (this.activeBot != undefined) {
                 this.activeBot.handleCommand(interaction);
             }
-
 
             if (interaction.commandName === 'help') {
                 const row = new MessageActionRow()

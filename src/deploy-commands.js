@@ -4,7 +4,17 @@ const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 
 const commands = [
-    new SlashCommandBuilder().setName('play').setDescription('Select which bot to use.'),
+    new SlashCommandBuilder()
+        .setName('play')
+        .setDescription('Select which bot to use.')
+        .addStringOption(option => option.setName('game')
+            .setDescription('The name of the game bot to activate: drpg')
+            .setRequired(true)
+            .addChoices(
+                { name: "drpg", value: "drpg" },
+                { name: "ark", value: "ark" },
+                { name: "rq", value: "rq" },
+                { name: "dnd", value: "dnd" })),
     // Each bot needs to provide functionality to satisfy each of the below commands
     new SlashCommandBuilder().setName('help').setDescription('Displays the list of commands and how each of them works.'),
     new SlashCommandBuilder().setName('iam').setDescription('Select which character to play.'),
