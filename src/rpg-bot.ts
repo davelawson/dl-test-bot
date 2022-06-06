@@ -1,4 +1,4 @@
-import { Interaction } from "discord.js";
+import { CommandInteraction, Interaction } from "discord.js";
 
 export abstract class RpgBot {
     readonly name: string;
@@ -9,5 +9,6 @@ export abstract class RpgBot {
         this.description = description;
     }
 
-    abstract handleCommand(interaction: Interaction) : Promise<void>;
+    abstract handleInteraction(interaction: Interaction) : Promise<void>;
+    abstract handleCommand(command: CommandInteraction) : Promise<void>;
 }
