@@ -13,7 +13,7 @@ export class RqBot extends RpgBot {
         this.model = model;
     }
 
-    public async onHandleCommand(command: CommandInteraction<CacheType>, session: RpgSession): Promise<void> {
+    public async onHandleCommand(command: CommandInteraction<CacheType>, session: RpgSession | undefined): Promise<void> {
         /**
          * Commands to handle:
          * - iam
@@ -32,7 +32,7 @@ export class RqBot extends RpgBot {
          */
         let subcmd: string = command.options.getSubcommand();
         if (subcmd === 'iam') {
-            await new IamHandler(this.model).handle(command);
+            await new IamHandler(this.model).handle(command, session);
 
         } else {
             throw new Error("Method not implemented.");

@@ -1,18 +1,18 @@
 import { CommandInteraction, CacheType } from "discord.js";
+import { RpgSession } from "../../rpg-session";
 import { RqModel } from "../rq-model";
 import { CmdHandler } from "./cmd-handler";
 
 export class IamHandler extends CmdHandler {
 
-    private model:RqModel;
+    private model: RqModel;
 
-    constructor(model:RqModel) {
-        super();
+    constructor(model: RqModel) {
+        super(false);
         this.model = model;
     }
 
-    public async handle(cmd: CommandInteraction<CacheType>): Promise<void> {
+    override async onHandle(cmd: CommandInteraction<CacheType>, session: RpgSession | undefined): Promise<void> {
         throw new Error("Method not implemented.");
     }
-
 }
