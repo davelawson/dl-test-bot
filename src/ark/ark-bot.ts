@@ -1,12 +1,14 @@
 import { Interaction, CacheType, CommandInteraction } from "discord.js";
 import { RpgBot } from "../rpg-bot";
+import { RpgSession } from "../rpg-session";
+import { ArkModel } from "./ark-model";
 
 export class ArkBot extends RpgBot {
     constructor() {
-        super("ark", "Bot for playing Ark Tenebris");
+        super("ark", "Bot for playing Ark Tenebris", new ArkModel());
     }
 
-    handleCommand(command: CommandInteraction<CacheType>): Promise<void> {
+    onHandleCommand(command: CommandInteraction<CacheType>, session: RpgSession | undefined): Promise<void> {
         throw new Error("Method not implemented.");
     }
 

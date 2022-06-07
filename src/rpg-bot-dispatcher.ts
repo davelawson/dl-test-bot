@@ -2,11 +2,13 @@ import { Interaction } from "discord.js";
 import { ArkBot } from "./ark/ark-bot";
 import { DrpgBot } from "./drpg/drpg-bot";
 import { RpgBot } from "./rpg-bot";
+import { RqBot } from "./rq/rq-bot";
 
 class RpgBotDispatcher {
     bots: Array<RpgBot> = Array(
         <RpgBot>new DrpgBot(),
-        <RpgBot>new ArkBot()
+        <RpgBot>new ArkBot(),
+        <RpgBot>new RqBot(),
     );
 
     private getBot(botName: string): RpgBot | undefined {
@@ -24,6 +26,9 @@ class RpgBotDispatcher {
             } else {
                 await bot.handleCommand(interaction);
             }
+        } else if (interaction.isModalSubmit()) {
+            console.log('=== MODAL SUBMIT ========================================');
+            console.log(interaction);
         }
     }
 }

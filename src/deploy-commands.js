@@ -1,11 +1,12 @@
 require('dotenv').config();
 const { getArkCommandBuilder } = require('./ark/build-commands');
+const { getRqCommandBuilder } = require('./rq/build-commands');
 const { getDrpgCommandBuilder } = require('./drpg/build-commands');
-const { SlashCommandBuilder } = require('@discordjs/builders');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 
 const commands = [
+    getRqCommandBuilder(),
     getArkCommandBuilder(),
     getDrpgCommandBuilder(),
 ]

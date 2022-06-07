@@ -9,15 +9,9 @@ client.on('ready', () => {
     console.log("Bot dispatcher ready!");
 });
 
-client.on('messageCreate', (msg: Message) => {
-    if (msg.author.bot)
-        return;
-    console.log("message");
-    rpgBotDispatcher.handleMessage(msg);
-});
-
 client.on('interactionCreate', async (interaction: Interaction) => {
-    console.log("interaction");
+    console.log('=== NEW INTERACTION =====================================');
+    console.log(interaction);
     rpgBotDispatcher.handleInteraction(interaction);
 });
 
