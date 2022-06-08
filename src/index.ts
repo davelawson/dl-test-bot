@@ -11,7 +11,7 @@ client.on('ready', () => {
 
 client.on('interactionCreate', async (interaction: Interaction) => {
     console.log('=== NEW INTERACTION =====================================');
-    console.log(interaction);
+    // console.log(interaction);
     rpgBotDispatcher.handleInteraction(interaction);
 });
 

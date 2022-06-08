@@ -18,5 +18,5 @@ export abstract class RpgBot {
     handleCommand(command: CommandInteraction) : Promise<void> {
         return this.onHandleCommand(command, this.baseModel.getSession(command.user))
     }
-    abstract onHandleCommand(command: CommandInteraction, session: RpgSession | undefined): Promise<void>;
+    abstract onHandleCommand(command: CommandInteraction, session: RpgSession): Promise<void>;
 }
