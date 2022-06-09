@@ -1,5 +1,5 @@
 import { CommandInteraction, CacheType } from "discord.js";
-import { getCmdOption, getReplyContext } from "../../reply-utils";
+import { getCmdOption } from "../../reply-utils";
 import { RpgSession } from "../../rpg-session";
 import GFacade from "../../sheets/google-facade";
 import { RqModel } from "../rq-model";
@@ -18,7 +18,6 @@ export class IamHandler extends RqCmdHandler {
         
         // Now let's make sure we can read the sheet. Specifically the character name on the sheet
         const nameOnSheet = await this.googleApi.queryCell(sheetName, "D2");
-        console.log(nameOnSheet);
 
         return cmd.reply("Now acting as " + nameOnSheet + " (from " + session.sheetName + ")");
     }
