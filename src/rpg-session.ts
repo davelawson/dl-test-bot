@@ -1,8 +1,8 @@
 export class RpgSession {
     public isInitialized: boolean;
-    public characterName: string | undefined;
+    public sheetName: string | undefined;
     constructor() {
         this.isInitialized = false;
-        this.characterName = undefined;
+        this.sheetName = undefined;
     }
 }

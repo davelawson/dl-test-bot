@@ -11,6 +11,10 @@ class RpgBotDispatcher {
         <RpgBot>new RqBot(),
     );
 
+    public setup() {
+        this.bots.forEach(bot => bot.setup());
+    }
+
     private getBot(botName: string): RpgBot | undefined {
         return this.bots.find(bot => bot.name === botName);
     }

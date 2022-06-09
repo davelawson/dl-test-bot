@@ -13,9 +13,10 @@ export abstract class RpgBot {
         this.baseModel = baseModel;
     }
 
-    abstract handleInteraction(interaction: Interaction) : Promise<void>;
+    public async setup(): Promise<void> {}
+    abstract handleInteraction(interaction: Interaction): Promise<void>;
 
-    handleCommand(command: CommandInteraction) : Promise<void> {
+    handleCommand(command: CommandInteraction): Promise<void> {
         return this.onHandleCommand(command, this.baseModel.getSession(command.user))
     }
     abstract onHandleCommand(command: CommandInteraction, session: RpgSession): Promise<void>;
