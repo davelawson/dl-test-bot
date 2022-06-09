@@ -20,8 +20,6 @@ class RpgBotDispatcher {
     }
 
     async handleInteraction(interaction: Interaction): Promise<void> {
-        console.log('=== NEW INTERACTION =====================================');
-        console.log(interaction);
         if (interaction.isCommand()) {
             let bot = this.getBot(interaction.commandName);
             if (bot === undefined) {
@@ -30,9 +28,6 @@ class RpgBotDispatcher {
             } else {
                 await bot.handleCommand(interaction);
             }
-        } else if (interaction.isModalSubmit()) {
-            console.log('=== MODAL SUBMIT ========================================');
-            console.log(interaction);
         }
     }
 }
